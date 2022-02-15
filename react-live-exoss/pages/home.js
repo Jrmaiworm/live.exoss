@@ -1,14 +1,15 @@
-import { Box, Text, TextField, Button } from "@skynexui/components";
+import { Box, Text, TextField, Button} from "@skynexui/components";
 import React, { useState } from "react";
 import appConfig from "../config.json";
 import Header from "../components/header";
-
-
+import { useRouter } from 'next/router'
+import Link from "next/link";
 
 
 export default function Home() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const router =useRouter();
 
   const collectData = async () => {
     console.warn(login, password);
@@ -17,7 +18,8 @@ export default function Home() {
       body: JSON.stringify({ login, password }),
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer my-token",
+        Authorization: "Bearer my-token"
+        
       },
     });
     result = await result.text();
@@ -28,6 +30,7 @@ export default function Home() {
     if (result) {
      
       alert("Bem vindo a Exoss.");
+      router.push("/admin")
     } else {
      
       alert("Usuario ou senha incorretos");
@@ -36,11 +39,11 @@ export default function Home() {
 console.log(login);
   return (
     <Box
+  
       styleSheet={{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-
         backgroundImage: `url(https://storage.googleapis.com/production-hostgator-brasil-v1-0-8/058/830058/2aXnw63K/c76167d8499e49d78fe5f66c94396bc4)`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
@@ -49,6 +52,7 @@ console.log(login);
       }}
     >
       <Box
+
         styleSheet={{
           display: "flex",
           flexDirection: "column",
@@ -66,6 +70,7 @@ console.log(login);
         <Header />
         <Box
           styleSheet={{
+           
             position: "relative",
             display: "flex",
             flex: 1,
@@ -150,7 +155,23 @@ console.log(login);
               }}
             />
           </Box>
+          <Link href="/">
+            <Text
+              styleSheet={{
+                display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+                hover: {
+                  cursor: "pointer",
+                },
+              }}
+            >
+             Voltar
+            </Text>
+          </Link>
         </Box>
+       
       </Box>
     </Box>
   );
