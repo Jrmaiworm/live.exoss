@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/api/usuario")
 public class UsuarioController {
@@ -30,16 +31,19 @@ public class UsuarioController {
 		return encoder;
 	}
 
+	
 	@GetMapping("/listarTodos")
     public ResponseEntity<List<UsuarioModel>> listarTodos() {
         return ResponseEntity.ok(repository.findAll());
     }
+
 
     @PostMapping("/salvar")
     public ResponseEntity<UsuarioModel> salvar(@RequestBody UsuarioModel usuario) {
         usuario.setPassword(encoder.encode(usuario.getPassword()));
         return ResponseEntity.ok(repository.save(usuario));
     }
+
 
     @GetMapping("/validarSenha")
     public ResponseEntity<Boolean> validarSenha(@RequestParam String login,
@@ -56,4 +60,15 @@ public class UsuarioController {
         HttpStatus status = (valid) ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
         return ResponseEntity.status(status).body(valid);
     }
+    
+    @DeleteMapping("/delete/{id}")
+	public ResponseEntity<Void> deletarPorId(@PathVariable String id){
+		if(!repository.existsById(id)) {
+			return ResponseEntity.notFound().build();
+		}
+		repository.deleteById(id);
+		return ResponseEntity.noContent().build();
+	}
 }
+    
+

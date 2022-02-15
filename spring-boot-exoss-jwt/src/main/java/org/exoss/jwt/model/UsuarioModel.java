@@ -5,29 +5,42 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="Usuario")
+@Entity
+@Table(name="usuario")
 public class UsuarioModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(unique = true)
+    private String id_usuario;
+   
     @Column(unique = true)
     private String login;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(unique = false)
     private String password;
-
-	public Integer getId() {
-		return id;
+   
+    public UsuarioModel(String id_usuario, String login, String password) {
+		super();
+		this.id_usuario = id_usuario;
+		this.login = login;
+		this.password = password;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public String getId_usuario() {
+		return id_usuario;
+	}
+
+	public void setId_usuario(String id_usuario) {
+		this.id_usuario = id_usuario;
 	}
 
 	public String getLogin() {
@@ -46,4 +59,9 @@ public class UsuarioModel {
 		this.password = password;
 	}
 
+	public UsuarioModel() {
+  		super();
+  		// TODO Auto-generated constructor stub
+      }
+	
 }
